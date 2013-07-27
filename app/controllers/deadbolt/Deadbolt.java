@@ -95,21 +95,26 @@ public class Deadbolt extends Controller
     @Before
     static void checkRestrictions() throws Throwable
     {
-        DEADBOLT_HANDLER.beforeRoleCheck();
-
-        RoleHolder roleHolder = getRoleHolder();
         RestrictionType restrictionType = getRestrictionType();
-        if (restrictionType == RestrictionType.DYNAMIC)
+
+        if (restrictionType != null && restrictionType != RestrictionType.NONE)
         {
-            handleDynamicChecks(roleHolder);
-        }
-        else if (restrictionType == RestrictionType.STATIC)
-        {
-            handleStaticChecks(roleHolder);
-        }
-        else if (restrictionType == RestrictionType.BASIC)
-        {
-            handleRoleHolderPresent(roleHolder);
+            DEADBOLT_HANDLER.beforeRoleCheck();
+
+            RoleHolder roleHolder = getRoleHolder();
+
+            if (restrictionType == RestrictionType.DYNAMIC)
+            {
+                handleDynamicChecks(roleHolder);
+            }
+            else if (restrictionType == RestrictionType.STATIC)
+            {
+                handleStaticChecks(roleHolder);
+            }
+            else if (restrictionType == RestrictionType.BASIC)
+            {
+                handleRoleHolderPresent(roleHolder);
+            }
         }
     }
 
